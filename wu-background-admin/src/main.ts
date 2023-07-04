@@ -11,6 +11,8 @@ import 'virtual:svg-icons-register'
 
 import '@/styles/index.scss'
 
+import './permission'
+
 import router from './router'
 import pinia from './store'
 

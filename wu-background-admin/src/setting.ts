@@ -1,6 +1,6 @@
 
 export default {
     title:'Wu-Admin',
-    logo:'resource/img/logo.png',
+    logo:'/logo.png',
     logoHidding:true
 }

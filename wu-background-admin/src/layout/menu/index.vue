@@ -1,7 +1,7 @@
 <template>
   <template v-for="(item, index) in menuList" :key="item.path">
     <template v-if="!item.children">
-      <el-menu-item v-if="!item.meta.hidden" :index="item.path" @click="">
+      <el-menu-item v-if="!item.meta.hidden" :index="item.path" @click="goRoute">
         <template #title>
           <el-icon>
             <component :is="item.meta.icon"></component>
@@ -12,7 +12,7 @@
     </template>
 
     <template v-if="item.children && item.children.length == 1">
-      <el-menu-item v-if="!item.children[0].meta.hidden" :index="item.children[0].path">
+      <el-menu-item v-if="!item.children[0].meta.hidden" :index="item.children[0].path" @click="goRoute">
         <template #title>
           <el-icon>
             <component :is="item.children[0].meta.icon"></component>
@@ -36,9 +36,15 @@
 </template>
 
 <script setup lang="ts">
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
+
+const $router = useRouter()
 // 获取父组件传递过来的全部路由
 defineProps(['menuList'])
+
+const goRoute = (vc: any) => {
+  $router.push(vc.index)
+}
 </script>
 <script lang="ts">
 export default {

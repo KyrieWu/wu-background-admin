@@ -1,30 +1,47 @@
 <template>
-  <div class="layout_container">
-    <div class="layout_slider">
-      <logo />
+  <el-container class="layout_container">
+    <el-aside class="layout_slider" :class="{ fold: layoutSettingStore.fold ? true : false }">
+  
       <!-- 展示菜单 -->
       <el-scrollbar class="scrollerBar">
+        <logo />
         <!-- 展示菜单 -->
-        <el-menu background-color="#001529" text-color="white">
+        <el-menu :collapse="layoutSettingStore.fold ? true : false" background-color="#001529" text-color="#959ea6"
+          active-text-color="#fff" :default-active="$route.path" :router="true" >
           <Menu :menuList="userStrore.menuRoutes"></Menu>
         </el-menu>
       </el-scrollbar>
+    </el-aside>
+
+    <div class="layout_tabbar" :class="{ fold: layoutSettingStore.fold ? true : false }">
+      <Tabbar></Tabbar>
     </div>
 
-    <div class="layout_tabbar">222</div>
-
-    <div class="layout_main">
-      <p style="">我是一个段落</p>
+    <div class="layout_main" :class="{ fold: layoutSettingStore.fold ? true : false }">
+      <Main />
     </div>
-  </div>
+  </el-container>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'Layout'
+}
+</script>
 <script setup lang="ts">
 import logo from './logo/index.vue'
 import Menu from './menu/index.vue'
+import Main from './main/index.vue'
+import Tabbar from './tabbar/index.vue'
 import useUserStore from '@/store/modules/user'
+import useLayoutSettingStore from '@/store/modules/setting'
+
+import { useRoute } from 'vue-router'
 
 const userStrore = useUserStore()
+const layoutSettingStore = useLayoutSettingStore()
+
+let $route = useRoute()
 
 </script>
 
@@ -35,16 +52,22 @@ const userStrore = useUserStore()
 
   .layout_slider {
     width: $base-menu-width;
-    height: 100vh;
     background: $base-menu-background;
+    transition: all 0.3s;
 
-    .scrollerBar {
-      width: 100%;
-      height: calc(100vh - $base-menu-logo-height);
+    // .scrollerBar {
+    //   width: 100%;
+    //   height: calc(100vh - $base-menu-logo-height);
 
-      .el-menu {
+      
+    // }
+
+    .el-menu {
         border-right: none;
       }
+
+    &.fold {
+      width: $base-menu-min-width;
     }
   }
 
@@ -52,20 +75,31 @@ const userStrore = useUserStore()
     position: fixed;
     width: calc(100% - $base-menu-width);
     height: $base-tabber-height;
-    background: cyan;
     top: 0px;
     left: $base-menu-width;
+    transition: all 0.3s;
+
+    &.fold {
+      width: calc(100vw - $base-menu-min-width);
+      left: $base-menu-min-width;
+    }
   }
 
   .layout_main {
     position: absolute;
     width: calc(100% - $base-menu-width);
     height: calc(100vh - $base-tabber-height);
-    background-color: yellowgreen;
     left: $base-menu-width;
     top: $base-tabber-height;
     padding: 20px;
     overflow: auto;
+    transition: all 0.3s;
+    background-color: #0000000d;
+
+    &.fold {
+      width: calc(100vw - $base-menu-min-width);
+      left: $base-menu-min-width;
+    }
   }
 }
 </style>

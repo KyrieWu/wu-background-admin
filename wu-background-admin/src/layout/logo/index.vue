@@ -6,6 +6,11 @@
   <img src="" alt="">
 </template>
 
+<script lang="ts">
+export default {
+  name: 'Logo'
+}
+</script>
 <script setup lang="ts">
 import setting from '@/setting'
 
@@ -18,16 +23,17 @@ import setting from '@/setting'
   color: white;
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
 
   img {
     width: 40px;
     height: 40px;
   }
 
-  span {
+  .title {
     font-size: $base-logo-title-fontSize;
     margin-left: 20px;
+    font-weight: 600;
   }
 }
 </style>

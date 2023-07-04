@@ -1,32 +1,63 @@
 // 创建用户相关的小仓库
 import { defineStore } from 'pinia'
-import { reqLogin } from '@/api/user'
-import type { loginForm, loginResponseData } from '@/api/user/type'
+import {reqLogin, reqUserInfo, reqLogOut } from '@/api/user'
+import type {
+  LoginFormData,
+  LoginResponseData,
+  userInfoResponseData,
+} from '@/api/user/type'
 import type { UserData } from './types/type'
-import { GET_TOKEN, SET_TOKEN } from '@/utils/token'
+import { GET_TOKEN, SET_TOKEN,REMOVE_TOKEN } from '@/utils/token'
 import { constantRoute } from '@/router/routes'
+
 
 const useUserStore = defineStore('User', {
   state: (): UserData => {
     return {
       token: GET_TOKEN() || '',
-      menuRoutes: constantRoute,// 存储 生成菜单需要数组
+      menuRoutes: constantRoute, // 存储 生成菜单需要数组
+      username: '',
+      avatar: '',
+      buttons: [],
     }
   },
   actions: {
     // 用户登录
-    async userLogin(data: loginForm) {
-      let result: loginResponseData = await reqLogin(data)
+    async userLogin(data: LoginFormData) {
+      let result: LoginResponseData = await reqLogin(data)
 
       if (result.code == 200) {
-        this.token = result.data.token
+        this.token = result.data as string
 
-        SET_TOKEN(result.data.token)
+        SET_TOKEN(result.data as string)
 
         return 'OK'
       } else {
-        return Promise.reject(new Error(result.data.message))
+        return Promise.reject(new Error(result.data as string))
       }
+    },
+
+    async userInfo() {
+      let result: userInfoResponseData = await reqUserInfo()
+
+      if (result.code == 200) {
+        this.username = result.data.name as string
+        this.avatar = result.data.avatar as string
+        this.buttons = result.data.buttons
+      }
+    },
+
+   async userLogout() {
+      let res = await reqLogOut()
+      if(res.code===200){
+        this.token = ''
+        this.username = ''
+        this.avatar = ''
+        REMOVE_TOKEN()
+      }else{
+        return Promise.reject(new Error(res.message))
+      }
+      
     },
   },
   getters: {},
