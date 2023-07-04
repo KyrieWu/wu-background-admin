@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card" style="height: 100%;width: 100%;overflow: auto;">
     <el-button type="primary" size="default" icon="Plus">添加品牌</el-button>
-    <el-table style="margin: 10px 0px;" border :data="tradeMarkArr">
+    <el-table style="margin: 10px 0px;" border :data="tradeMarkArr" v-loading="loading">
       <el-table-column label="序号" width="80px" align="center" type="index">
       </el-table-column>
       <el-table-column label="品牌名称" align="center">
@@ -22,14 +22,19 @@
       </el-table-column>
     </el-table>
     <!-- pagination -->
-    <el-pagination  v-model:current-page="pageNo" v-model:page-size="limit" :page-sizes="[3, 5, 7, 9]"
-      :background="true" layout="->,prev, pager, next, jumper, sizes, total" :total="total"
-      @current-change="getHasTradeMark" @size-change="sizeChange" />
+    <el-pagination v-model:current-page="pageNo" v-model:page-size="limit" :page-sizes="[3, 5, 7, 9]" :background="true"
+      layout="->,prev, pager, next, jumper, sizes, total" :total="total" @current-change="getHasTradeMark"
+      @size-change="sizeChange" />
   </el-card>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'Trademark'
+}
+</script>
 <script setup lang="ts">
-import { onMounted, ref, reactive, nextTick } from 'vue'
+import { onBeforeMount, ref, reactive, nextTick } from 'vue'
 import {
   reqHasTradeMark,
   reqAddOrUpdateTrademark,
@@ -40,6 +45,8 @@ import type {
   TradeMark,
   TradeMarkResponseData,
 } from '@/api/product/trademark/type'
+
+let loading = ref(true)
 
 let pageNo = ref<number>(1)
 let limit = ref<number>(3)
@@ -57,7 +64,7 @@ const sizeChange = () => {
   getHasTradeMark()
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   getHasTradeMark()
 })
 
@@ -71,10 +78,10 @@ const getHasTradeMark = async (pager = 1) => {
   if (res.code === 200) {
     total.value = res.data.total
     tradeMarkArr.value = res.data.records
+    loading.value = false
   }
 }
 
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

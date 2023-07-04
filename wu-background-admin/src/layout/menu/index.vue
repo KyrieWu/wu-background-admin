@@ -22,7 +22,6 @@
       </el-menu-item>
     </template>
 
-
     <el-sub-menu :index="item.path" v-if="item.children && item.children.length > 1">
       <template #title>
         <el-icon>

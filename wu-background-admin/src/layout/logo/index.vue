@@ -24,6 +24,7 @@ import setting from '@/setting'
   display: flex;
   align-items: center;
   padding: 10px;
+  padding-top: 20px;
 
   img {
     width: 40px;

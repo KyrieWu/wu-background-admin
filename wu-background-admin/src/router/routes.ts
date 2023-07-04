@@ -13,7 +13,6 @@ export const constantRoute = [
     component: () => import('@/layout/index.vue'),
     name: 'layout',
     meta: {
-      title: '',
       hidden: false
     },
     redirect: '/home',
@@ -48,6 +47,9 @@ export const constantRoute = [
       icon: 'Platform',
     },
   },
+]
+
+export const asyncRoute = [
   {
     path: '/acl',
     component: () => import('@/layout/index.vue'),
@@ -62,7 +64,7 @@ export const constantRoute = [
       {
         path: '/acl/user',
         component: () => import('@/views/acl/user/index.vue'),
-        name: '用户管理',
+        name: 'User',
         meta: {
           title: '用户管理',
           hidden: false,
@@ -72,7 +74,7 @@ export const constantRoute = [
       {
         path: '/acl/role',
         component: () => import('@/views/acl/role/index.vue'),
-        name: '角色管理',
+        name: 'Role',
         meta: {
           title: '角色管理',
           hidden: false,
@@ -82,7 +84,7 @@ export const constantRoute = [
       {
         path: '/acl/permission',
         component: () => import('@/views/acl/permission/index.vue'),
-        name: '菜单管理',
+        name: 'Permission',
         meta: {
           title: '菜单管理',
           hidden: false,
@@ -97,8 +99,8 @@ export const constantRoute = [
     name: 'Product',
     meta: {
       title: '商品管理',
-      icon: 'Goods',
       hidden: false,
+      icon: 'Goods',
     },
     redirect: '/product/trademark',
     children: [
@@ -108,7 +110,7 @@ export const constantRoute = [
         name: 'Trademark',
         meta: {
           title: '品牌管理',
-          icon: 'ShoppingCartFull',
+          icon: 'ShoppingCart',
           hidden: false,
         },
       },
@@ -123,34 +125,35 @@ export const constantRoute = [
         },
       },
       {
-        path: '/product/sku',
-        component: () => import('@/views/product/sku/index.vue'),
-        name: 'Sku',
-        meta: {
-          title: 'Sku管理',
-          icon: 'ScaleToOriginal',
-          hidden: false,
-        },
-      },
-      {
         path: '/product/spu',
         component: () => import('@/views/product/spu/index.vue'),
         name: 'Spu',
         meta: {
-          title: 'Spu管理',
+          title: 'Spu',
           icon: 'SetUp',
+          hidden: false,
+        },
+      },
+      {
+        path: '/product/sku',
+        component: () => import('@/views/product/sku/index.vue'),
+        name: 'Sku',
+        meta: {
+          title: 'Sku',
+          icon: 'ScaleToOriginal',
           hidden: false,
         },
       },
     ],
   },
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/404',
-    name: 'Any',
-    meta: {
-      title: '任意路由',
-      hidden: true,
-    },
-  },
 ]
+
+export const anyRoute = {
+  path: '/:pathMatch(.*)*',
+  redirect: '/404',
+  name: 'Any',
+  meta: {
+    title: '任意路由',
+    hidden: true,
+  },
+}
