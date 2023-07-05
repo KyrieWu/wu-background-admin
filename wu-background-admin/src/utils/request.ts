@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosHeaders, AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 import useUserStore from '@/store/modules/user'
 
@@ -8,7 +8,7 @@ let request = axios.create({
 })
 
 request.interceptors.request.use(
-  (config) => {
+  (config: any) => {
     let userStore = useUserStore()
 
     if (userStore.token) {

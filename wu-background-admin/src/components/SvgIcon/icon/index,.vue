@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-name:'SvgIcon'
+name:'Svgicon'
 //接受父组件传递过来的参数
 defineProps({
   prefix: {

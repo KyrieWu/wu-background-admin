@@ -26,7 +26,7 @@ import Setting from './setting/index.vue'
   height: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: #fff !important;
+  //background-color: #fff !important;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   //border-bottom: .1px solid #000;
   z-index: 999;

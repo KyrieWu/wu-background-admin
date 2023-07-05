@@ -1,15 +1,15 @@
 // 创建用户相关的小仓库
 import { defineStore } from 'pinia'
 import router from '@/router'
-import {reqLogin, reqUserInfo, reqLogOut } from '@/api/user'
+import { reqLogin, reqUserInfo, reqLogOut } from '@/api/user'
 import type {
   LoginFormData,
   LoginResponseData,
   userInfoResponseData,
 } from '@/api/user/type'
 import type { UserData } from './types/type'
-import { GET_TOKEN, SET_TOKEN,REMOVE_TOKEN } from '@/utils/token'
-import { asyncRoute, constantRoute,anyRoute } from '@/router/routes'
+import { GET_TOKEN, SET_TOKEN, REMOVE_TOKEN } from '@/utils/token'
+import { asyncRoute, constantRoute, anyRoute } from '@/router/routes'
 
 // @ts-ignore
 import cloneDeep from 'lodash/cloneDeep'
@@ -24,7 +24,6 @@ function filterAsyncRoute(asyncRoute: any, routes: any) {
     }
   })
 }
-
 
 let useUserStore = defineStore('User', {
   state: (): UserData => {
@@ -58,33 +57,33 @@ let useUserStore = defineStore('User', {
       if (result.code == 200) {
         this.username = result.data.name as string
         this.avatar = result.data.avatar as string
+        this.buttons = result.data.buttons
         let userAsyncRoute = filterAsyncRoute(
           cloneDeep(asyncRoute),
           result.data.routes,
         )
-        
+
         this.menuRoutes = [...constantRoute, ...userAsyncRoute, anyRoute]
         ;[...userAsyncRoute, anyRoute].forEach((route: any) => {
           router.addRoute(route)
         })
-        
+
         return 'ok'
-      }else {
+      } else {
         return Promise.reject(new Error(result.message))
       }
     },
 
-   async userLogout() {
+    async userLogout() {
       let res = await reqLogOut()
-      if(res.code===200){
+      if (res.code === 200) {
         this.token = ''
         this.username = ''
         this.avatar = ''
         REMOVE_TOKEN()
-      }else{
+      } else {
         return Promise.reject(new Error(res.message))
       }
-      
     },
   },
   getters: {},
